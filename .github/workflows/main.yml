@@ -17,12 +17,18 @@ jobs:
 
       - name: Install Test requirements
         run: pip install -r requirements/test_requirements.txt
-
+        
+      - name: Install build package
+        run: pip install build
+        
       - name: Run training pipeline
         run: python bikeshare_model/train_pipeline.py
 
       - name : Execute unit testcases
         run: pytest
+
+      - name: Build Model to generage whl file
+        run: python -m build
         
       - name: Log in to DockerHub
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_UNAME }}" --password-stdin
